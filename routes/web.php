@@ -11,7 +11,17 @@
 |
 */
 
-use Illuminate\Support\Facades\DB;
+Route::group(
+    ['domain' => '{account}.' . config('app.url')],
+    function () {
+        Route::get(
+            '/',
+            function ($account) {
+                return "Hello " . $account;
+            }
+        );
+    }
+);
 
 Route::get(
     '/',
