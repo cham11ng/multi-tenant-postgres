@@ -13,15 +13,16 @@ class CreateTenantsTable extends Migration
      */
     public function up()
     {
-        Schema::create('tenants', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name');
-            $table->string('sub_domain');
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->rememberToken();
-            $table->timestamps();
-        });
+        Schema::create(
+            'tenants',
+            function (Blueprint $table) {
+                $table->increments('id');
+                $table->string('name');
+                $table->string('sub_domain');
+                $table->string('email')->unique();
+                $table->timestamps();
+            }
+        );
     }
 
     /**

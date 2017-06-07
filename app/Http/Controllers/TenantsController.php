@@ -38,7 +38,9 @@ class TenantsController extends Controller
      */
     public function store(Request $request)
     {
-        PGSchema::install($request->name);
+        $status = PGSchema::install($request->name, ['--path' => 'database/migrations/tenant']);
+        if (!$status)
+            return dd('Something went wrong');
 
         return redirect('tenants');
     }
