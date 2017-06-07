@@ -134,6 +134,9 @@ class PGSchema
     public function migrate($schemaName, $args = [])
     {
         $this->switchTo($schemaName);
+        if (!$this->tableExists($schemaName, 'migrations')) {
+            Artisan::call('migrate:install');
+        }
         Artisan::call('migrate', $args);
     }
 
