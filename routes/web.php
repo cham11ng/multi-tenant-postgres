@@ -11,15 +11,18 @@
 |
 */
 
+use App\Http\Facades\PGSchema;
+
 Route::group(
     ['domain' => '{account}.' . config('app.url')],
     function () {
         Route::get(
             '/',
             function ($account) {
-                return "Hello " . $account;
+                PGSchema::switchTo($account);
+                return view('welcome');
             }
-        );
+        )->name('homepage');
     }
 );
 
