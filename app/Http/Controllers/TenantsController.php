@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Facades\PGSchema;
 use App\Tenant;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\DB;
 
 class TenantsController extends Controller
 {
@@ -16,7 +15,7 @@ class TenantsController extends Controller
      */
     public function index()
     {
-        $tenants = DB::table('information_schema.schemata')->select('schema_name')->get();
+        $tenants = PGSchema::listSchemas();
 
         return view('tenants.show', compact('tenants'));
     }
@@ -39,26 +38,7 @@ class TenantsController extends Controller
      */
     public function store(Request $request)
     {
-        DB::statement('CREATE SCHEMA ' . $request->name);
-
-        $schemaName = $request->name;
-        $query      = 'SET search_path TO ' . $schemaName;
-        $result     = DB::statement($query);
-
-        $tables = DB::table('information_schema.tables')
-                    ->select('table_name')
-                    ->where('table_schema', '=', $schemaName)
-                    ->get();
-
-        foreach ($tables as $table) {
-            if ($table->table_name === 'migrations') {
-                Artisan::call('migrate');
-
-                return redirect('tenants');
-            }
-        }
-        Artisan::call('migrate:install');
-        Artisan::call('migrate');
+        PGSchema::install($request->name);
 
         return redirect('tenants');
     }
