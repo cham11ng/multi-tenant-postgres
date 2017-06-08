@@ -18,6 +18,7 @@ class CreateTenantsTable extends Migration
             function (Blueprint $table) {
                 $table->increments('id');
                 $table->string('name');
+                $table->string('schema');
                 $table->string('sub_domain');
                 $table->string('email')->unique();
                 $table->timestamps();

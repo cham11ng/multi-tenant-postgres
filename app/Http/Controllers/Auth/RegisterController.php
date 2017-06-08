@@ -6,7 +6,9 @@ use App\Http\Facades\PGSchema;
 use App\Tenant;
 use App\User;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Redirect;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Http\Request as RegisterRequest;
+use Illuminate\Support\Facades\Request as Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -42,6 +44,23 @@ class RegisterController extends Controller
     }
 
     /**
+     * Handle a registration request for the application.
+     * Overriding register method prevent creating user session
+     *
+     * @param RegisterRequest $request
+     * @return \Illuminate\Http\Response
+     */
+    public function register(RegisterRequest $request)
+    {
+        $this->validator($request->all())->validate();
+
+        event(new Registered($user = $this->create($request->all())));
+
+        return $this->registered($request, $user)
+            ?: redirect($this->redirectPath());
+    }
+
+    /**
      * Get a validator for an incoming registration request.
      *
      * @param  array $data
@@ -52,8 +71,8 @@ class RegisterController extends Controller
         return Validator::make(
             $data,
             [
-                'name'     => 'required|string|max:255unique:pgsql.public.tenants',
-                'email'    => 'required|string|email|max:255',
+                'name'     => 'required|string|max:255|unique:pgsql.public.tenants',
+                'email'    => 'required|string|email|max:255|unique:pgsql.public.tenants',
                 'password' => 'required|string|min:6|confirmed',
             ]
         );
@@ -67,15 +86,18 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        PGSchema::install(str_slug($data['name']), ['--path' => 'database/migrations/tenant']);
-
-        Tenant::create(
+        $response = Tenant::create(
             [
                 'name'       => $data['name'],
-                'sub_domain' => str_slug($data['name']),
+                'schema'     => $data['name'],
+                'sub_domain' => $data['name'],
                 'email'      => $data['email'],
             ]
         );
+
+        PGSchema::install($response->schema, ['--path' => 'database/migrations/tenant']);
+
+        $this->redirectTo = Request::getScheme() . '://' . $response->sub_domain . '.' . config('app.url');
 
         return User::create(
             [
@@ -84,15 +106,5 @@ class RegisterController extends Controller
                 'password' => bcrypt($data['password']),
             ]
         );
-    }
-
-    /**
-     * Get the post register / login redirect path.
-     *
-     * @return string
-     */
-    public function redirectPath()
-    {
-        return Redirect::route('homepage');
     }
 }

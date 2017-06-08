@@ -2,15 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Facades\PGSchema;
-use Illuminate\Http\Request;
-
 class HomeController extends Controller
 {
     /**
      * Create a new controller instance.
      *
-     * @return void
      */
     public function __construct()
     {
@@ -20,12 +16,11 @@ class HomeController extends Controller
     /**
      * Show the application dashboard.
      *
+     * @param $tenant
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($tenant)
     {
-        PGSchema::switchTo('cham11ng');
-
-        return view('home');
+        return view('home', compact('tenant'));
     }
 }

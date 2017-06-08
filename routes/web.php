@@ -14,46 +14,40 @@
 use App\Http\Facades\PGSchema;
 
 Route::group(
-    ['domain' => '{account}.' . config('app.url')],
+    [
+        'domain'     => '{tenant}.' . config('app.url'),
+        'middleware' => 'select-schema'
+    ],
+    function () {
+        // Authentication Routes...
+        $this->get('/', 'Auth\LoginController@showLoginForm')->name('login');
+        $this->post('/', 'Auth\LoginController@login');
+        $this->post('logout', 'Auth\LoginController@logout')->name('logout');
+
+        // Password Reset Routes...
+        $this->get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+        $this->post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+        $this->get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
+        $this->post('password/reset', 'Auth\ResetPasswordController@reset');
+
+        Route::get('/dashboard', 'HomeController@index')->name('dashboard');
+    }
+);
+
+Route::group(
+    [
+        'domain' => config('app.url'),
+    ],
     function () {
         Route::get(
             '/',
-            function ($account) {
-                PGSchema::switchTo($account);
+            function () {
                 return view('welcome');
             }
-        )->name('homepage');
-    }
-);
+        )->name('home');
 
-Route::get(
-    '/',
-    function () {
-        return view('welcome');
-    }
-);
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
-Route::resource('/tenants', 'TenantsController');
-
-Route::get(
-    'apple',
-    function () {
-        $result = DB::statement('SET search_path TO apple');
-        $query  = DB::select('show search_path');
-
-        return array_pop($query)->search_path;
-    }
-);
-
-Route::get(
-    'ball',
-    function () {
-        $query = DB::select('show search_path');
-
-        return array_pop($query)->search_path;
+        // Registration Routes...
+        $this->get('/register', 'Auth\RegisterController@showRegistrationForm')->name('register');
+        $this->post('/register', 'Auth\RegisterController@register');
     }
 );

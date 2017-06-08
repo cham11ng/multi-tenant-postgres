@@ -39,13 +39,8 @@ class PGSchema
     protected function tableExists($schemaName, $tableName)
     {
         $tables = $this->listTables($schemaName);
-        foreach ($tables as $table) {
-            if ($table->table_name === $tableName) {
-                return true;
-            }
-        }
 
-        return false;
+        return in_array($tableName, $tables->toArray());
     }
 
     /**
