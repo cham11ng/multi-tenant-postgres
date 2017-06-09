@@ -10,8 +10,6 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-    protected $table = 'cham11ng.users';
-
     /**
      * The attributes that are mass assignable.
      *
@@ -29,13 +27,4 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
-
-    /**
-     * User constructor.
-     * @param string $table
-     */
-    /*public function __construct($table)
-    {
-        $this->table = PGSchema::getSearchPath() . '.users';
-    }*/
 }
