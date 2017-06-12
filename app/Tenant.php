@@ -4,8 +4,15 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class Tenant
+ * @package App
+ */
 class Tenant extends Model
 {
+    /**
+     * @var array
+     */
     protected $fillable = [
         'name',
         'schema',
@@ -13,6 +20,11 @@ class Tenant extends Model
         'email'
     ];
 
+    /**
+     * This table is in public schema
+     *
+     * @var string
+     */
     protected $table = 'public.tenants';
 
     /**

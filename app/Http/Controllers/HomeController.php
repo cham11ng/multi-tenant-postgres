@@ -21,6 +21,12 @@ class HomeController extends Controller
      */
     public function index($tenant)
     {
-        return view('home', compact('tenant'));
+        return view(
+            'home',
+            [
+                'tenant' => $tenant,
+                'user' => auth()->user()->load('role')
+            ]
+        );
     }
 }
