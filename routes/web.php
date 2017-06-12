@@ -11,8 +11,6 @@
 |
 */
 
-use App\Http\Facades\PGSchema;
-
 Route::group(
     [
         'domain'     => '{tenant}.' . config('app.url'),
