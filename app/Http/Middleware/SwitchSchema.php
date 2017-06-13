@@ -17,7 +17,7 @@ class SwitchSchema
      */
     public function handle($request, Closure $next)
     {
-        $subDomain = explode('.', $request->getHttpHost())[0];
+        $subDomain = $request->route()->parameter('tenant');
         $tenant = Tenant::where('sub_domain', $subDomain)->firstOrFail();
         PGSchema::switchTo($tenant->schema); // if sub-domain exists, change the schema to the tenant schema
 
