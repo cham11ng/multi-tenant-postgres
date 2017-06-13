@@ -44,12 +44,11 @@ class LoginController extends Controller
     /**
      * Show the application's login form.
      *
-     * @param $tenant
      * @return \Illuminate\Http\Response
      */
-    public function showLoginForm($tenant)
+    public function showLoginForm()
     {
-        return view('auth.login', compact('tenant'));
+        return view('auth.login');
     }
 
     /**

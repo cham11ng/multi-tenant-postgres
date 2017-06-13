@@ -7,7 +7,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Login</div>
                 <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ route('login', ['tenant' => $tenant]) }}">
+                    <form class="form-horizontal" role="form" method="POST" action="{{ tenant_route('login') }}">
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
@@ -54,7 +54,7 @@
                                     Login
                                 </button>
 
-                                <a class="btn btn-link" href="{{ route('password.request', ['tenant' => $tenant]) }}">
+                                <a class="btn btn-link" href="{{ tenant_route('password.request') }}">
                                     Forgot Your Password?
                                 </a>
                             </div>

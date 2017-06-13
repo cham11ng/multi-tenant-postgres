@@ -16,15 +16,13 @@ class HomeController extends Controller
     /**
      * Show the application dashboard.
      *
-     * @param $tenant
      * @return \Illuminate\Http\Response
      */
-    public function index($tenant)
+    public function index()
     {
         return view(
             'home',
             [
-                'tenant' => $tenant,
                 'user' => auth()->user()->load('role')
             ]
         );

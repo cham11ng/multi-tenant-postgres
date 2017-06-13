@@ -18,15 +18,15 @@ Route::group(
     ],
     function () {
         // Authentication Routes...
-        $this->get('/', 'Auth\LoginController@showLoginForm')->name('login');
-        $this->post('/', 'Auth\LoginController@login');
-        $this->post('logout', 'Auth\LoginController@logout')->name('logout');
+        Route::get('/', 'Auth\LoginController@showLoginForm')->name('login');
+        Route::post('/', 'Auth\LoginController@login');
+        Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
         // Password Reset Routes...
-        $this->get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
-        $this->post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
-        $this->get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
-        $this->post('password/reset', 'Auth\ResetPasswordController@reset');
+        Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+        Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+        Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
+        Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
         Route::get('/dashboard', 'HomeController@index')->name('dashboard');
     }
@@ -45,7 +45,7 @@ Route::group(
         )->name('home');
 
         // Registration Routes...
-        $this->get('/register', 'Auth\RegisterController@showRegistrationForm')->name('register');
-        $this->post('/register', 'Auth\RegisterController@register');
+        Route::get('/register', 'Auth\RegisterController@showRegistrationForm')->name('register');
+        Route::post('/register', 'Auth\RegisterController@register');
     }
 );
