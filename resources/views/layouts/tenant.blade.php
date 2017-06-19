@@ -41,5 +41,6 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/register.js') }}"></script>
 </body>
 </html>
