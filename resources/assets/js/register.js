@@ -1,3 +1,5 @@
+Vue.component('example', require('./components/Register.vue'));
+
 new Vue({
     el: '#app',
     data: {
