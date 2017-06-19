@@ -83,20 +83,25 @@ new Vue({
     el: '#app',
     data: {
         title: '',
-        domain: ''
+        domain: '',
+        status: false
     },
 
     methods: {
-        clean: function clean(string) {
+        convert: function convert(string) {
             return string.replace(/[^a-zA-Z0-9]+/g, "-").toLowerCase();
         },
         setDomain: function setDomain() {
-            this.domain = this.clean(this.title);
-        },
-        checkCharacter: function checkCharacter() {
-            this.domain = this.clean(this.domain);
+            this.domain = this.convert(this.title);
         }
     }
+});
+
+$(function () {
+    $("#domain").keypress(function (event) {
+        var ew = event.which;
+        return 48 <= ew && ew <= 57 || 97 <= ew && ew <= 122 || ew === 45;
+    });
 });
 
 /***/ })

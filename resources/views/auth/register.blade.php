@@ -60,19 +60,20 @@
                             </div>
                         </div>
 
-                        <hr>
-
                         <div class="form-group{{ $errors->has('domain') ? ' has-error' : '' }}">
-                            <div class="col-md-offset-2 col-md-8">
+                            <div class="col-md-offset-2 col-md-8 text-center">
+                                <span class="control-label">
+                                    <strong style="line-height: 40px;">Domain name can only have letters, numbers, and dashes.</strong>
+                                </span>
                                 <div class="input-group input-group-lg">
-                                    <input id="domain" type="text" v-model="domain" @keyup="checkCharacter" class="form-control text-right" name="domain" value="{{ old('domain') }}" autofocus>
+                                    <input id="domain" type="text" v-model="domain" class="form-control text-right" name="domain" value="{{ old('domain') }}" autofocus>
                                     <span class="input-group-addon">.{{ config('app.url') }}</span>
                                 </div>
 
                                 @if ($errors->has('domain'))
-                                    <span class="help-block text-center">
+                                    <span class="help-block">
                                         <strong>{{ $errors->first('domain') }}</strong>
-                                    </span>
+                                    </span><br>
                                 @endif
                             </div>
                         </div>
