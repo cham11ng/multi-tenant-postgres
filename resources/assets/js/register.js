@@ -2,13 +2,20 @@ new Vue({
     el: '#app',
     data: {
         title: '',
+        domain: ''
     },
 
-    computed: {
+    methods: {
+        clean(string) {
+            return string.replace(/[^a-zA-Z0-9]+/g, "-").toLowerCase();
+        },
+
         setDomain() {
-            return this.title.replace(/([a-z])([A-Z])/g, "$1-$2")
-                .replace(/\s+/g, '-')
-                .toLowerCase();
-        }
-    }
+            this.domain = this.clean(this.title);
+        },
+
+        checkCharacter() {
+            this.domain = this.clean(this.domain);
+        },
+    },
 });

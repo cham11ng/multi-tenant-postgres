@@ -82,12 +82,19 @@ module.exports = __webpack_require__(9);
 new Vue({
     el: '#app',
     data: {
-        title: ''
+        title: '',
+        domain: ''
     },
 
-    computed: {
+    methods: {
+        clean: function clean(string) {
+            return string.replace(/[^a-zA-Z0-9]+/g, "-").toLowerCase();
+        },
         setDomain: function setDomain() {
-            return this.title.replace(/([a-z])([A-Z])/g, "$1-$2").replace(/\s+/g, '-').toLowerCase();
+            this.domain = this.clean(this.title);
+        },
+        checkCharacter: function checkCharacter() {
+            this.domain = this.clean(this.domain);
         }
     }
 });

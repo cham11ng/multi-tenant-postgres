@@ -14,7 +14,7 @@
                             <label for="name" class="col-md-4 control-label">Tenant Name</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" v-model="title" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
+                                <input id="name" type="text" v-model="title" @keyup="setDomain" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
 
                                 @if ($errors->has('name'))
                                     <span class="help-block">
@@ -65,7 +65,7 @@
                         <div class="form-group{{ $errors->has('domain') ? ' has-error' : '' }}">
                             <div class="col-md-offset-2 col-md-8">
                                 <div class="input-group input-group-lg">
-                                    <input id="domain" type="text" v-model="setDomain" class="form-control text-right" name="domain" value="{{ old('domain') }}" autofocus>
+                                    <input id="domain" type="text" v-model="domain" @keyup="checkCharacter" class="form-control text-right" name="domain" value="{{ old('domain') }}" autofocus>
                                     <span class="input-group-addon">.{{ config('app.url') }}</span>
                                 </div>
 
