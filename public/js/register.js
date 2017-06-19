@@ -79,7 +79,18 @@ module.exports = __webpack_require__(9);
 /***/ 9:
 /***/ (function(module, exports) {
 
+new Vue({
+    el: '#app',
+    data: {
+        title: ''
+    },
 
+    computed: {
+        setDomain: function setDomain() {
+            return this.title.replace(/([a-z])([A-Z])/g, "$1-$2").replace(/\s+/g, '-').toLowerCase();
+        }
+    }
+});
 
 /***/ })
 

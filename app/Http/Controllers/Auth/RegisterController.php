@@ -71,8 +71,9 @@ class RegisterController extends Controller
         return Validator::make(
             $data,
             [
-                'name'     => 'required|string|max:255|unique:tenants',
+                'name'     => 'required|string|max:255',
                 'email'    => 'required|string|email|max:255|unique:tenants',
+                'domain'   => 'required|string|max:255|unique:tenants,sub_domain',
                 'password' => 'required|string|min:6|confirmed',
             ]
         );
@@ -89,8 +90,8 @@ class RegisterController extends Controller
         $response = Tenant::create(
             [
                 'name'       => $data['name'],
-                'schema'     => $data['name'],
-                'sub_domain' => $data['name'],
+                'schema'     => $data['domain'],
+                'sub_domain' => $data['domain'],
                 'email'      => $data['email'],
             ]
         );

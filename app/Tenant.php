@@ -44,7 +44,7 @@ class Tenant extends Model
      */
     public function setSubDomainAttribute($value)
     {
-        $this->attributes['sub_domain'] = kebab_case(ucwords($value));
+        $this->attributes['sub_domain'] = strtolower($value);
     }
 
     /**
@@ -55,6 +55,6 @@ class Tenant extends Model
      */
     public function setSchemaAttribute($value)
     {
-        $this->attributes['schema'] = snake_case(ucwords($value));
+        $this->attributes['schema'] = strtolower(str_replace('-', '_', $value));
     }
 }
