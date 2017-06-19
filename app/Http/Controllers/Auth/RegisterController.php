@@ -108,4 +108,21 @@ class RegisterController extends Controller
             ]
         );
     }
+
+    public function signIn()
+    {
+        return view('auth.switch');
+    }
+
+    public function check(RegisterRequest $request)
+    {
+        $this->validate(
+            $request,
+            [
+                'domain' => 'required|exists:tenants,sub_domain'
+            ]
+        );
+
+        return redirect(Request::getScheme() . '://' . $request->domain . '.' . config('app.url'));
+    }
 }

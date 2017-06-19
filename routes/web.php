@@ -47,5 +47,8 @@ Route::group(
         // Registration Routes...
         Route::get('/register', 'Auth\RegisterController@showRegistrationForm')->name('register');
         Route::post('/register', 'Auth\RegisterController@register');
+
+        Route::get('/sign-in', 'Auth\RegisterController@signIn')->name('signIn');
+        Route::post('/sign-in', 'Auth\RegisterController@check')->name('signIn.check');
     }
 );
