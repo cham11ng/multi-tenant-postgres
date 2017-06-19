@@ -71,8 +71,8 @@ class RegisterController extends Controller
         return Validator::make(
             $data,
             [
-                'name'     => 'required|string|max:255|unique:pgsql.public.tenants',
-                'email'    => 'required|string|email|max:255|unique:pgsql.public.tenants',
+                'name'     => 'required|string|max:255|unique:tenants',
+                'email'    => 'required|string|email|max:255|unique:tenants',
                 'password' => 'required|string|min:6|confirmed',
             ]
         );
