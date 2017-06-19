@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 /**
  * Class Role
@@ -18,11 +19,20 @@ class Role extends Model
     ];
 
     /**
-     * This table is in public schema
+     * Get the table associated with the model.
      *
-     * @var string
+     * @return string
      */
-    protected $table = 'public.roles';
+    public function getTable()
+    {
+        $schema = config('database.connections.' . config('database.default') . '.schema') . '.';
+        if (!isset($this->table)) {
+            return $schema . str_replace('\\', '', Str::snake(Str::plural(class_basename($this))));
+        }
+
+        return $schema . $this->table;
+    }
+
 
     /**
      * Users relationship to fetch users of corresponding role

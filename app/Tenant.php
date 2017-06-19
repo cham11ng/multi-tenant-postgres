@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 /**
  * Class Tenant
@@ -21,11 +22,19 @@ class Tenant extends Model
     ];
 
     /**
-     * This table is in public schema
+     * Get the table associated with the model.
      *
-     * @var string
+     * @return string
      */
-    protected $table = 'public.tenants';
+    public function getTable()
+    {
+        $schema = config('database.connections.' . config('database.default') . '.schema') . '.';
+        if (!isset($this->table)) {
+            return $schema . str_replace('\\', '', Str::snake(Str::plural(class_basename($this))));
+        }
+
+        return $schema . $this->table;
+    }
 
     /**
      * Set the tenant's sub-domain.
