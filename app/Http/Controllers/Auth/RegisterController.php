@@ -56,6 +56,15 @@ class RegisterController extends Controller
 
         event(new Registered($user = $this->create($request->all())));
 
+        if ($request->expectsJson()) {
+            return response()->json(
+                [
+                    'status' => 'Successfully, registered'
+                ],
+                200
+            );
+        }
+
         return $this->registered($request, $user)
             ?: redirect($this->redirectPath());
     }
@@ -73,7 +82,7 @@ class RegisterController extends Controller
             [
                 'name'     => 'required|string|max:255',
                 'email'    => 'required|string|email|max:255|unique:tenants',
-                'domain'   => 'required|string|max:255|unique:tenants,sub_domain',
+                'domain'   => 'required|string|max:255|unique:tenants,sub_domain|regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/',
                 'password' => 'required|string|min:6|confirmed',
             ]
         );
