@@ -59,7 +59,8 @@ class RegisterController extends Controller
         if ($request->expectsJson()) {
             return response()->json(
                 [
-                    'status' => 'Successfully, registered'
+                    'status' => 'Successfully, registered. Redirecting...',
+                    'url'    => $this->redirectTo
                 ],
                 200
             );
