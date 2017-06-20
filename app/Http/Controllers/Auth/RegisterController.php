@@ -106,7 +106,7 @@ class RegisterController extends Controller
             ]
         );
 
-        PGSchema::install($response->schema, ['--path' => 'database/migrations/tenant']);
+        PGSchema::install($response->schema, ['--path' => 'database/migrations/tenant'], ['--class' => 'TenantSeeder']);
 
         $this->redirectTo = Request::getScheme() . '://' . $response->sub_domain . '.' . config('app.url');
 

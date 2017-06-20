@@ -1,9 +1,9 @@
 <?php
 
-use App\Role;
+use App\Weekend;
 use Illuminate\Database\Seeder;
 
-class RolesTableSeeder extends Seeder
+class WeekendsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,18 +12,15 @@ class RolesTableSeeder extends Seeder
      */
     public function run()
     {
-        Role::truncate();
+        Weekend::truncate();
 
         $data = [
-            'Super Admin',
-            'Admin',
-            'Short Admin',
-            'Tiny Admin',
-            'Normal User'
+            'Saturday',
+            'Sunday',
         ];
 
         foreach ($data as $datum) {
-            Role::insert(
+            Weekend::insert(
                 [
                     'name' => $datum
                 ]
