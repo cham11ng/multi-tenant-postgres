@@ -1769,7 +1769,9 @@ var Errors = function () {
 
     }, {
         key: "clear",
-        value: function clear(field) {
+        value: function clear() {
+            var field = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
             if (field) {
                 delete this.errors[field];
 
@@ -1823,10 +1825,10 @@ var Form = function () {
     _createClass(Form, [{
         key: 'data',
         value: function data() {
-            var data = {};
+            var data = new FormData();
 
             for (var property in this.originalData) {
-                data[property] = this[property];
+                data.append(property, this[property]);
             }
 
             return data;
@@ -1840,7 +1842,7 @@ var Form = function () {
         key: 'reset',
         value: function reset() {
             for (var field in this.originalData) {
-                this[field] = '';
+                this[field] = this.originalData[field];
             }
 
             this.errors.clear();

@@ -21,10 +21,10 @@ class Form {
      * Fetch all relevant data for the form.
      */
     data() {
-        let data = {};
+        let data = new FormData();
 
         for (let property in this.originalData) {
-            data[property] = this[property];
+            data.append(property, this[property]);
         }
 
         return data;
@@ -36,7 +36,7 @@ class Form {
      */
     reset() {
         for (let field in this.originalData) {
-            this[field] = '';
+            this[field] = this.originalData[field];
         }
 
         this.errors.clear();
