@@ -56,5 +56,15 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'select-schema' => \App\Http\Middleware\SwitchSchema::class,
+    ];
+
+    /**
+     * Responsible for prioritizing the middleware
+     *
+     * @var array
+     */
+    protected $middlewarePriority = [
+        \App\Http\Middleware\SwitchSchema::class,
     ];
 }

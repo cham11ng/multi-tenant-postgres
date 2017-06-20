@@ -100,8 +100,8 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        'domain' => [
+            'regex' => 'Domain name can only have letters, numbers, and dashes.',
         ],
     ],
 
