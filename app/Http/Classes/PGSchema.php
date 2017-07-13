@@ -172,6 +172,18 @@ class PGSchema
     }
 
     /**
+     * Schema Seeding
+     *
+     * @param       $schemaName
+     * @param array $args
+     */
+    public function seed($schemaName, $args = [])
+    {
+        $this->switchTo($schemaName);
+        Artisan::call('db:seed', $args);
+    }
+
+    /**
      * Return the current search path (schema)
      *
      * @return string
@@ -189,14 +201,18 @@ class PGSchema
      *
      * @param        $schemaName
      * @param array  $args
+     * @param array  $seedArgs
      * @return bool
+     * @internal param null $seed
      */
-    public function install($schemaName, $args = [])
+    public function install($schemaName, $args = [], $seedArgs = [])
     {
         if ($this->create($schemaName)) {
             $this->migrate($schemaName, $args);
 
-            return true;
+            if ($seedArgs) {
+                $this->seed($schemaName, $seedArgs);
+            }
         }
 
         return false;
