@@ -68,7 +68,8 @@
             </div>
         </div>
 
-        <div class="alert alert-success" v-if="message">{{ message }}</div>
+        <div class="alert alert-info" v-if="message">{{ message }}</div>
+        <div class="loader" style="display: none;"></div>
     </form>
 </template>
 
@@ -99,17 +100,28 @@
 
             onSubmit() {
                 const vm = this;
+                $(".loader").fadeIn();
+                setTimeout(function () {
+                    vm.form.post('/register')
+                        .then(function (response) {
+                            vm.message = response.status;
+                            $(".loader").fadeOut("slow");
+                            setTimeout(function () {
+                                window.location.replace(response.url);
+                            }, 4000);
+                        })
+                        .catch(function (error) {
+                            $(".loader").fadeOut("slow");
+                            if (error.status !== 422) {
+                                vm.message = 'Something Went Wrong!';
+                            }
+                        });
 
-                this.form.post('/register')
-                    .then(function (response) {
-                        vm.message = response.status;
-                        setTimeout(function () {
-                            window.location.replace(response.url);
-                        }, 2000);
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
+                }, 500);
+
+                setTimeout(function () {
+                    vm.message = ''
+                }, 4000)
             }
         },
     }
@@ -118,7 +130,7 @@
     $(function () {
         $("#domain").keypress(function (event) {
             let ew = event.which;
-            return (48 <= ew && ew <= 57) || (97 <= ew && ew <= 122) || (ew === 45);
+            return (48 <= ew && ew <= 57) || (97 <= ew && ew <= 122) || (ew === 45) || (ew === 8) || (ew === 46 );
         });
     });
 </script>
@@ -130,5 +142,15 @@
         bottom: 0;
         right: 0;
         margin: 20px;
+    }
+
+    .loader {
+        position: fixed;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+        z-index: 9999;
+        background: url('/image/loader.gif') center no-repeat #fff;
     }
 </style>
